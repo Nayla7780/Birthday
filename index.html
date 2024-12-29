@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bestie!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: black;
+            color: white;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .typing {
+            font-size: 24px;
+            font-weight: bold;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid white;
+            animation: typing 4s steps(20) forwards, blink 0.5s step-end infinite;
+        }
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+        .background-container {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: background 1s;
+        }
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container" id="background"></div>
+    <div class="container">
+        <div class="photo">
+            <img src="image/imma.png.jpg" alt="Bestie Photo">
+        </div>
+        <div class="typing" id="typingText"></div>
+    </div>
+
+    <canvas class="fireworks"></canvas>
+
+    <script>
+        const sentences = [
+        "Happy Birthday Bestie! 🎉🎉🎉",
+        "Ututututuuu, Kakak Imma tambah tua! (wkwkwk 😂).",
+        "Semoga semua yang kamu semogakan tersemoga ya. Aamiin! 🙏🏻",
+        "Hai bestie-ku yang luar biasa 💐,",
+        "Hari ini adalah harimu,",
+        "jadi aku ingin mengingatkan kamu sesuatu yang penting.",
+        "Jangan lupa berterima kasih pada diri sendiri, ya.",
+        "Karena yang membuat kamu kuat adalah dirimu sendiri.",
+        "Yang selama ini berjuang dan bertahan adalah kamu.",
+        "Jadi, berhenti membandingkan dirimu dengan orang lain,",
+        "karena setiap orang punya kelebihan masing-masing.",
+        "Aku yakin suatu hari nanti kamu akan jadi lebih hebat lagi.",
+        "Jangan overthinking terus, ya.",
+        "Jangan terlalu memikirkan masa depan,",
+        "karena masa depan itu milik Tuhan.",
+        "Tugasmu hanya berusaha dan berdoa.",
+        "Kalau sedang merasa sedih atau merasa sendiri,",
+        "ingat bahwa kamu nggak pernah benar-benar sendirian.",
+        "Dunia ini memang luas dan terkadang terasa sepi,",
+        "tapi aku selalu ada untukmu, kapan pun kamu butuh.",
+        "Aku tahu, kadang ulang tahun membawa perasaan aneh—sedih,",
+        "bahkan air mata yang bisa tiba-tiba muncul.",
+        "Mungkin itu cara hati dan",
+        "tubuhmu melepas beban yang selama ini kamu pendam.",
+        "Tapi ingat, nggak apa-apa untuk merasa lelah atau bingung.",
+        "Kamu nggak harus kuat setiap saat.",
+        "Dan aku bangga banget sama kamu.",
+        "Kalau kamu butuh waktu untuk diam dan",
+        "berdamai dengan diri sendiri, itu juga nggak apa-apa.",
+        "Heningnya malam sering kali",
+        "membantu kita mendengar apa yang hati kita coba katakan.",
+        "Ambil waktu sebanyak yang kamu perlukan.",
+        "Aku nggak akan memaksa kamu bicara,",
+        "tapi aku mau kamu tahu, aku selalu di sini untukmu.",
+        "Dan tentang kebahagiaan—",
+        "meskipun rasanya berat saat kebahagiaan yang",
+        "dulu pernah ada tiba-tiba menghilang,",
+        "percayalah, dia nggak benar-benar pergi.",
+        "Mungkin sekarang dia hanya bersembunyi,",
+        "menunggu waktu yang tepat untuk kembali.",
+        "Jadi jangan menyerah, ya.",
+        "Kadang kita hanya perlu sedikit lebih sabar untuk menemukannya lagi.",
+        "Apa pun yang terjadi, aku selalu di sini untuk mendukungmu.",
+        "Sekali lagi, Happy Birthday! 🎂✨",
+        "Semoga tahun ini membawa banyak kebahagiaan,",
+        "keberkahan, dan hal-hal baik untukmu.",
+        "Aku bangga banget punya sahabat sekuat dan sehebat kamu! 😊"
+        ];
+        const typingText = document.getElementById("typingText");
+        const background = document.getElementById("background");
+        const backgrounds = [
+            'url(image/bg1.jpg)',
+            'url(image/bg2.jpg)',
+            'url(image/bg3.jpg)',
+            'url(image/bg4.jpg)',
+            'url(image/bg5.jpg)',
+            'url(image/bg6.jpg)',
+            'url(image/bg7.jpg)',
+            'url(image/bg8.jpg)',
+            'url(image/bg9.jpg)',
+            'url(image/bg10.jpg)',
+            'url(image/bg11.jpg)',
+            'url(image/bg12.jpg)',
+            'url(image/bg13.jpg)',
+            'url(image/bg14.jpg)',
+            'url(image/bg15.jpg)',
+            'url(image/bg16.jpg)',
+            'url(image/bg17.jpg)',
+            'url(image/bg18.jpg)',
+            'url(image/bg19.jpg)',
+            'url(image/bg4.jpg)',
+            'url(image/bg5.jpg)',
+            'url(image/bg6.jpg)',
+            'url(image/bg7.jpg)',
+            'url(image/bg8.jpg)',
+            'url(image/bg9.jpg)',
+            'url(image/bg10.jpg)',
+            'url(image/bg11.jpg)',
+            'url(image/bg12.jpg)',
+            'url(image/bg13.jpg)',
+            'url(image/bg14.jpg)',
+            'url(image/bg15.jpg)',
+            'url(image/bg16.jpg)',
+            'url(image/bg17.jpg)',
+            'url(image/bg18.jpg)',
+            'url(image/bg19.jpg)',
+            'url(image/bg4.jpg)',
+            'url(image/bg5.jpg)',
+            'url(image/bg6.jpg)',
+            'url(image/bg7.jpg)',
+            'url(image/bg8.jpg)',
+            'url(image/bg9.jpg)',
+            'url(image/bg10.jpg)',
+            'url(image/bg11.jpg)',
+            'url(image/bg12.jpg)',
+            'url(image/bg13.jpg)',
+            'url(image/bg20.jpg)',
+            'url(image/berdua.jpg)'
+        ];
+        let sentenceIndex = 0;
+
+        function typeSentence(sentence, callback) {
+            typingText.textContent = "";
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < sentence.length) {
+                    typingText.textContent += sentence[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    if (callback) setTimeout(callback, 1000);
+                }
+            }, 100);
+        }
+
+        function changeBackground() {
+            background.style.backgroundImage = backgrounds[sentenceIndex % backgrounds.length];
+        }
+
+        function showSentences() {
+            if (sentenceIndex < sentences.length) {
+                changeBackground();
+                typeSentence(sentences[sentenceIndex], () => {
+                    sentenceIndex++;
+                    showSentences();
+                });
+            }
+        }
+
+        // Fireworks
+        const canvas = document.querySelector('.fireworks');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const fireworks = [];
+
+        class Firework {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.particles = [];
+
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push(new Particle(this.x, this.y));
+                }
+            }
+
+            draw() {
+                this.particles.forEach(particle => particle.update());
+            }
+        }
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.speed = Math.random() * 5 + 2;
+                this.angle = Math.random() * 2 * Math.PI;
+                this.alpha = 1;
+                this.size = Math.random() * 3 + 1;
+                this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            }
+
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.alpha -= 0.02;
+
+                if (this.alpha > 0) {
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.alpha;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            fireworks.forEach((firework, index) => {
+                firework.draw();
+                if (firework.particles.every(p => p.alpha <= 0)) {
+                    fireworks.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(loop);
+        }
+
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height / 2;
+            fireworks.push(new Firework(x, y));
+        }
+
+        setInterval(createFirework, 500);
+        loop();
+
+        showSentences();
+    </script>
+</body>
+</html>
